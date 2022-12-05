@@ -16,6 +16,24 @@ body{
 .mainGrid{
     width: 960px;
     height: 640px;
-    border: 3px solid rgb(248, 248, 248);
+    outline: 3px solid rgb(248, 248, 248);
     box-shadow: 10px 10px 10px rgba(248, 248, 248, 0.308);
-} 
+    display: grid;
+    grid-template-columns: repeat(30, 32px);
+    grid-template-rows: repeat(20, 32px);
+
+}
+.wall{
+    background-image: url('../assets/wall.png');
+    width: 32px;
+    height: 32px;
+    outline: 1px solid white;
+}
+.dot{
+    background-image: url('../assets/yellowDot.png');
+    width: 32px;
+    height: 32px;
+}
+.blank{
+    background-image: url('../assets/blank.png');
+}
