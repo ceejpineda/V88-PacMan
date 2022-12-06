@@ -27,7 +27,7 @@ body{
     background-image: url('../assets/wall.png');
     width: 32px;
     height: 32px;
-    outline: 1px solid white;
+    /* outline: 1px solid white; */
 }
 .dot{
     background-image: url('../assets/yellowDot.png');
