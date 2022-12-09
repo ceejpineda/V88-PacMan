@@ -2,41 +2,34 @@ const pacman = (()=>{
 
     const tileSize = 32;
     const gameGrid = document.getElementById('gameGrid');
-    const pac1 = new Image();
-    const pac2 = new Image();
-    const pac3 = new Image();
-    const pac4 = new Image();
     const ghost1 = new Image();
     const ghost2 = new Image();
     const ghost3 = new Image();
     let pacIndex = 0;
     let direction = "right"
-    pac1.src = './assets/pac0.png'
-    pac2.src = './assets/pac1.png'
-    pac3.src = './assets/pac2.png'
-    pac4.src = './assets/pac1.png'
-    ghost1.src = 
     ghost2.src = './assets/ghost.png'
     ghost3.src = './assets/ghost.png'
+    let rand = 0;
+    let posEl = [];
     
 
     const map = [
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
-        [1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 1, 0, 1, 2, 1],
+        [1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 1, 5, 1, 2, 1],
         [1, 2, 1, 2, 1, 1, 2, 1, 2, 2, 1, 2, 2, 2, 1, 1, 2, 2, 2, 1, 2, 2, 1, 2, 1, 1, 0, 1, 2, 1],
         [1, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 1],
         [1, 2, 1, 1, 2, 1, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 1, 2, 1, 1, 2, 1],
         [1, 2, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 2, 1],
         [1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1],
         [1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 1],
-        [0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 5, 5, 5, 5, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0],
         [0, 0, 0, 4, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
         [1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1],
         [1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1],
         [1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 2, 0, 0, 2, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1],
         [1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1],
-        [1, 2, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 2, 1, 1, 2, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 2, 1],
+        [1, 2, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 2, 1, 1, 2, 1, 1, 0, 1, 0, 1, 0, 1, 1, 5, 1, 2, 1],
         [1, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2, 2, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1],
         [1, 2, 1, 2, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 2, 1],
         [1, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 1],
@@ -74,6 +67,7 @@ const pacman = (()=>{
                     const pacPos = document.createElement('div');
                     const pacChar = document.createElement('img');
                     pacChar.id = 'pac';
+                    pacChar.src = './assets/pacman.gif'
                     pacPos.appendChild(pacChar)
                     gameGrid.appendChild(pacPos);
                 }else if(tile === 5){
@@ -87,8 +81,6 @@ const pacman = (()=>{
         }
     };
 
-    const ghostGet
-
     const pacmanGet = () =>{
 
         for(let row=0; row < map.length; row++){
@@ -101,12 +93,79 @@ const pacman = (()=>{
         }
     }
 
-    const pacmanSprite = () =>{
-        const pacArray = [pac1.src, pac2.src, pac3.src, pac4.src];
-        pacIndex++;
-
-        return pacArray[pacIndex%4];
+    const random = () =>{
+        let rand =  Math.floor(Math.random()*4);
+        return rand;
     }
+
+    const ghostMovement = () =>{
+        for(let row=0; row < map.length; row++){
+            for(let column=0; column < map[row].length; column++){
+                let tile = map[row][column];
+                if(tile == 5){
+                    if(posEl.length >= 4) return;
+                    posEl.push([column, row]);
+                }
+            }
+        }
+
+        posEl.forEach(pos => {
+            rand = random();
+            if(rand == 0){
+                if(map[pos[1]][pos[0]-1] == 1){
+                    rand = random();
+                    return;
+                }else if(map[pos[1]][pos[0]-1] == 5){
+                    rand = random();
+                    return;
+                }
+                else{
+                    map[pos[1]][pos[0]] = 0;
+                    map[pos[1]][pos[0]-1] = 5;
+                };
+                return;
+            }else if(rand == 1){
+                if(map[pos[1]+1][pos[0]] == 1){
+                    rand = random();
+                    return;
+                }else if(map[pos[1]+1][pos[0]] == 5){
+                    rand = random();
+                    return;
+                }else{
+                    map[pos[1]][pos[0]] = 0;
+                    map[pos[1]+1][pos[0]] = 5;
+                };
+                return;
+            }else if(rand == 2){
+                if(map[pos[1]][pos[0]+1] == 1 ){
+                    rand = random();
+                    return;
+                }else if(map[pos[1]][pos[0]+1] == 5){
+                    rand = random();
+                    return;
+                }
+                else{
+                    map[pos[1]][pos[0]] = 0;
+                    map[pos[1]][pos[0]+1] = 5;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+                };
+            }else if(rand == 3){
+                if(map[pos[1]-1][pos[0]] == 1){
+                    rand = random();
+                    return;
+                }else if(map[pos[1]-1][pos[0]] == 5){
+                    rand = random();
+                    return;
+                }
+                else{
+                    map[pos[1]][pos[0]] = 0;
+                    map[pos[1]-1][pos[0]] = 5;
+                };
+            }
+        });
+        while(posEl.length){
+            posEl.shift();
+        }
+}
 
     const movement = () =>{
 
@@ -139,7 +198,7 @@ const pacman = (()=>{
                 clearInterval(moveDirection);
                 moveDirection = setInterval(moveDown, 1000/8);
             }
-    });
+        });
     }
 
     const moveLeft = () =>{
@@ -172,10 +231,8 @@ const pacman = (()=>{
         map[pacPosition[1]+1][pacPosition[0]] = 4;
         //pacman.drawMap();
     }
-
-    const animation = async () =>{
-        const pac = document.getElementById('pac')
-        pac.src = pacmanSprite();
+    const animation = () =>{
+        const pac = document.getElementById('pac');
         let dir = direction;
         if(dir == 'right'){
             pac.style.transform = 'rotate(0deg)';
@@ -189,10 +246,11 @@ const pacman = (()=>{
     }
 
 
-    return {loop, drawMap, map, movement, animation}
+    return {loop, drawMap, map, movement, animation, ghostMovement, posEl}
 
 })();
 
-setInterval(pacman.drawMap, 1000/10);
+setInterval(pacman.drawMap, 200);
 pacman.movement();
 setInterval(pacman.animation, 1000/20);
+setInterval(pacman.ghostMovement, 300);
