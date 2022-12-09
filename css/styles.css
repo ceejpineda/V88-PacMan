@@ -37,3 +37,22 @@ body{
 .blank{
     background-image: url('../assets/blank.png');
 }
+#pac{
+    background-image: url('../assets/pacman.gif');
+    background-color: transparent;
+    background-size: cover;
+    box-sizing: border-box;
+    width: 32px;
+    height: 32px;
+}
+.ghost{
+    background-image: url('../assets/ghost.png');
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+img{
+    outline: 5px solid black;
+    border: none;
+    object-fit: contain;
+}
