@@ -1,3 +1,8 @@
+@font-face {
+    font-family: Player2;
+    src: url('../assets/PressStart2P-Regular.ttf');
+}
+
 *,*::after,*::before{
     padding: 0;
     margin: 0;
@@ -11,6 +16,14 @@ body{
     background-color: #121212;
     height: 100vh;
     width: 100vw;
+    font-family: 'Player2', sans-serif;
+    color: white;
+    gap: 20px;
+}
+.mainContent{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .mainGrid{
@@ -25,6 +38,7 @@ body{
 }
 .wall{
     background-image: url('../assets/wall.png');
+    background-size: contain;
     width: 32px;
     height: 32px;
     /* outline: 1px solid white; */
@@ -39,7 +53,7 @@ body{
 }
 #pac{
     background-image: url('../assets/pacman.gif');
-    background-color: transparent;
+    background-color: black;
     background-size: cover;
     box-sizing: border-box;
     width: 32px;
@@ -47,12 +61,38 @@ body{
 }
 .ghost{
     background-image: url('../assets/ghost.png');
+    background-color: black;
     width: 32px;
     height: 32px;
     object-fit: contain;
 }
-img{
-    outline: 5px solid black;
-    border: none;
+.cherry{
+    background-image: url('../assets/cherry.png');
+    background-size: contain;
+    background-color: black;
+    width: 32px;
+    height: 32px;
     object-fit: contain;
+}
+.scoreContainer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.start{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.start > button{
+    background-color: darkblue;
+    width: 80px;
+    height: 50px;
+    color: white;
+    font-family: 'Player2';
+    border: 4px solid blue;
+}
+.start > button:hover{
+    background-color: aqua;
+    cursor: pointer;
 }
